@@ -66,11 +66,11 @@ export default function MainLayout() {
             onClick={() => setCollapsed(!collapsed)}
           />
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <Typography.Text strong>{user.name}</Typography.Text>
+            <Typography.Text strong>{user.username}</Typography.Text>
             <Button
               type="text"
               icon={<LogoutOutlined />}
-              onClick={() => { logout(); navigate('/login', { replace: true }); }}
+              onClick={async () => { await logout(); navigate('/login', { replace: true }); }}
             >
               Çıkış
             </Button>

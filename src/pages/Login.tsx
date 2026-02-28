@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button, Card, Form, Input, message, Typography } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
@@ -6,12 +7,21 @@ import { useAuth } from '../context/AuthContext';
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-  const onFinish = (values: { username: string; password: string }) => {
-    if (login(values.username, values.password)) {
+  const onFinish = async (values: { username: string; password: string }) => {
+    setLoading(true);
+    try {
+      await login(values.username, values.password);
       navigate('/dashboard', { replace: true });
-    } else {
-      message.error('Kullanıcı adı veya şifre hatalı!');
+    } catch (err: unknown) {
+      const errorMsg =
+        err && typeof err === 'object' && 'response' in err
+          ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+          : undefined;
+      message.error(errorMsg || 'Kullanıcı adı veya şifre hatalı!');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -35,14 +45,11 @@ export default function Login() {
             <Input.Password prefix={<LockOutlined />} placeholder="Şifre" size="large" />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" block size="large">
+            <Button type="primary" htmlType="submit" block size="large" loading={loading}>
               Giriş Yap
             </Button>
           </Form.Item>
         </Form>
-        <Typography.Text type="secondary" style={{ display: 'block', textAlign: 'center' }}>
-          Kullanıcı: admin / Şifre: 123456
-        </Typography.Text>
       </Card>
     </div>
   );

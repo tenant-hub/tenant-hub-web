@@ -9,7 +9,7 @@ export default function Dashboard() {
       <Typography.Title level={3}>Dashboard</Typography.Title>
       <Card>
         <Typography.Text>
-          Hoş geldiniz, <strong>{user?.name}</strong>! Tenant Hub yönetim paneline başarıyla giriş yaptınız.
+          Hoş geldiniz, <strong>{user?.username}</strong>! Tenant Hub yönetim paneline başarıyla giriş yaptınız.
         </Typography.Text>
       </Card>
     </div>
