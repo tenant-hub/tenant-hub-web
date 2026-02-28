@@ -3,6 +3,7 @@ import { Layout, Menu, Button, Typography, theme } from 'antd';
 import {
   DashboardOutlined,
   TeamOutlined,
+  UserOutlined,
   SettingOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
@@ -15,6 +16,7 @@ const { Header, Sider, Content } = Layout;
 
 const menuItems = [
   { key: '/dashboard', icon: <DashboardOutlined />, label: 'Dashboard' },
+  { key: '/users', icon: <UserOutlined />, label: 'Kullanıcılar' },
   { key: '/tenants', icon: <TeamOutlined />, label: 'Kiracılar' },
   { key: '/settings', icon: <SettingOutlined />, label: 'Ayarlar' },
 ];
