@@ -9,6 +9,7 @@ import Tenants from './pages/Tenants';
 import Users from './pages/Users';
 import Roles from './pages/Roles';
 import Permissions from './pages/Permissions';
+import RealEstates from './pages/RealEstates';
 import Settings from './pages/Settings';
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
               <Route path="/users" element={<Users />} />
               <Route path="/roles" element={<Roles />} />
               <Route path="/permissions" element={<Permissions />} />
+              <Route path="/real-estates" element={<RealEstates />} />
               <Route path="/tenants" element={<Tenants />} />
               <Route path="/settings" element={<Settings />} />
             </Route>
