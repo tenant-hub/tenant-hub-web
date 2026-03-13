@@ -319,7 +319,7 @@ export default function Payments() {
           <Row gutter={16}>
             <Col span={16}>
               <Form.Item name="amount" label="Tutar" rules={[{ required: true, message: 'Zorunlu alan' }]}>
-                <InputNumber
+                <InputNumber<number>
                   style={{ width: '100%' }}
                   min={0}
                   precision={2}
