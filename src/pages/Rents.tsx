@@ -21,10 +21,11 @@ interface Filters {
 }
 
 export default function Rents() {
-  const { hasPermission } = useAuth();
+  const { hasPermission, user } = useAuth();
   const canCreate = hasPermission('RENT_CREATE');
   const canUpdate = hasPermission('RENT_UPDATE');
   const canDelete = hasPermission('RENT_DELETE');
+  const canEditZamOrani = user?.roles.includes('ADMIN') || user?.roles.includes('MANAGER');
 
   const [data, setData] = useState<Rent[]>([]);
   const [loading, setLoading] = useState(false);
@@ -122,6 +123,7 @@ export default function Rents() {
       rentDate: dayjs(record.rentDate),
       rentAmount: record.rentAmount,
       currency: record.currency,
+      zamOrani: record.zamOrani ?? null,
     });
     fetchAllRealEstates();
     setModalOpen(true);
@@ -136,6 +138,7 @@ export default function Rents() {
         rentDate: values.rentDate.format('YYYY-MM-DDTHH:mm:ss'),
         rentAmount: values.rentAmount,
         currency: values.currency,
+        zamOrani: values.zamOrani ?? undefined,
       };
       if (editingRecord) {
         await updateRent(editingRecord.id, payload);
@@ -196,6 +199,16 @@ export default function Rents() {
     {
       title: 'Para Birimi',
       dataIndex: 'currency',
+    },
+    {
+      title: 'Zam Oranı',
+      dataIndex: 'zamOrani',
+      sorter: true,
+      sortOrder: getSortOrder('zamOrani'),
+      render: (value: number | null) =>
+        value != null
+          ? new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) + '%'
+          : '-',
     },
     {
       title: 'Durum',
@@ -337,6 +350,28 @@ export default function Rents() {
               </Form.Item>
             </Col>
           </Row>
+          <Form.Item
+            name="zamOrani"
+            label="Zam Oranı (%)"
+            rules={[
+              {
+                type: 'number',
+                min: 0,
+                max: 100,
+                message: 'Zam oranı 0-100 arasında olmalıdır',
+              },
+            ]}
+          >
+            <InputNumber<number>
+              style={{ width: '100%' }}
+              min={0}
+              max={100}
+              precision={2}
+              addonAfter="%"
+              disabled={!canEditZamOrani}
+              placeholder="Opsiyonel"
+            />
+          </Form.Item>
         </Form>
       </Modal>
     </div>
